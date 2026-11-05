@@ -1,0 +1,10 @@
+# 图像参数与显示设置；任务输入范围来自共享的 task 配置。
+rotation_k: 3
+depth_scale: 1.0
+cun_unit: 0.025
+depth_patch_radius: 2
+sync_slop: 0.05
+image_timeout: 1.0
+tf_timeout: 3.0
+service_timeout: 3.0
+status_timeout: 3.0

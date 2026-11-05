@@ -1,0 +1,12 @@
+# 顺时针旋转 90 度的次数（0~3）。
+int8 rotation_k
+# 彩色图与深度图的尺寸比例；对齐且同分辨率时为 1。
+float32 depth_scale
+# 同身寸，单位 m。
+float32 cun_unit
+---
+acupoint_detection/AcupointArray acupoints
+sensor_msgs/Image result_image
+float32 processing_time
+string message
+bool success

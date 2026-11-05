@@ -1,0 +1,76 @@
+# SAC 观测归一化、裁剪与增益映射；任务参数见 ../../config/control.yaml。
+observation:
+  fields:
+  - name: T_max_observed
+    unit: degC
+    offset: 40
+    scale: 10
+    clip_low: -3
+    clip_high: 3
+  - name: T_ref
+    unit: degC
+    offset: 40
+    scale: 5
+    clip_low: -1
+    clip_high: 1
+  - name: error
+    unit: degC
+    offset: 0
+    scale: 10
+    clip_low: -3
+    clip_high: 3
+  - name: temperature_rate
+    unit: degC/s
+    offset: 0
+    scale: 2
+    clip_low: -4
+    clip_high: 4
+  - name: temperature_acceleration
+    unit: degC/s^2
+    offset: 0
+    scale: 2
+    clip_low: -5
+    clip_high: 5
+  - name: current_distance
+    unit: m
+    offset: 0.03
+    scale: 0.05
+    clip_low: 0
+    clip_high: 1
+  - name: previous_distance_increment
+    unit: m
+    offset: 0
+    scale: 0.01
+    clip_low: -5
+    clip_high: 5
+  - name: previous_applied_Kp
+    unit: m/degC
+    offset: 0.0001
+    scale: 0.005
+    clip_low: -1
+    clip_high: 1
+  - name: previous_applied_Ki
+    unit: m/(degC*s)
+    offset: 0.003
+    scale: 0.01
+    clip_low: -1
+    clip_high: 1
+  - name: previous_applied_Kd
+    unit: m*s/degC
+    offset: 0.006
+    scale: 0.01
+    clip_low: -1
+    clip_high: 1
+gain_mapping:
+  lower:
+    kp: 9.0e-05
+    ki: 0.0027
+    kd: 0.0054
+  center:
+    kp: 0.0001
+    ki: 0.003
+    kd: 0.006
+  upper:
+    kp: 0.00011
+    ki: 0.0033
+    kd: 0.0066

@@ -1,0 +1,7 @@
+# B_T_C 将相机光学坐标中的米制点转换到基座；空值必须用实际标定结果填写。
+base_frame: base_link
+camera_frame: camera_color_optical_frame
+B_T_C:
+  translation: {x: null, y: null, z: null}
+  rotation:
+    quaternion: {x: null, y: null, z: null, w: null}

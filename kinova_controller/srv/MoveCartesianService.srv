@@ -1,0 +1,11 @@
+# 同步绝对点目标：xyz 为 m，theta_* 为 Kortex 度制欧拉角。
+# 坐标及工具参考点由驱动配置确定；本请求没有 frame 字段。
+float32 x
+float32 y
+float32 z
+float32 theta_x
+float32 theta_y
+float32 theta_z
+---
+# True 为收到 ACTION_END；False 包含失败/中止/超时，不能证明已经停止。
+bool success

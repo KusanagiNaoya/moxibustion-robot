@@ -1,0 +1,9 @@
+# 采集端将 D 从 mm 转为 m；安装偏移由任务服务器处理。
+port: auto
+baudrate: 115200
+frame_id: moxibustion_sensor
+kalman_q_per_sec: 0.01
+kalman_r: 0.5
+max_frame_bytes: 512
+max_pending_bytes: 4096
+max_partial_age_s: 1.0

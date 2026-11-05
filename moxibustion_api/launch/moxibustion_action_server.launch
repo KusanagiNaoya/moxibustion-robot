@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- 驱动与传感器须单独启动。 -->
+<launch>
+  <arg name="config" default="$(find moxibustion_api)/config/control.yaml" />
+  <arg name="model_dir" default="$(find moxibustion_api)/models" />
+  <arg name="base_frame" default="" />
+  <arg name="robot_interface_ns" default="" />
+  <arg name="action_name" default="" />
+  <arg name="sensor_topic" default="" />
+  <node pkg="moxibustion_api" type="moxibustion_action_server.py"
+        name="moxibustion_action_server" output="screen" required="true">
+    <rosparam command="load" file="$(arg config)" />
+    <param name="model_dir" value="$(arg model_dir)" />
+    <param if="$(eval arg('base_frame') != '')" name="base_frame" value="$(arg base_frame)" />
+    <param if="$(eval arg('robot_interface_ns') != '')" name="robot_interface_ns" value="$(arg robot_interface_ns)" />
+    <param if="$(eval arg('action_name') != '')" name="action_name" value="$(arg action_name)" />
+    <param if="$(eval arg('sensor_topic') != '')" name="sensor_topic" value="$(arg sensor_topic)" />
+  </node>
+</launch>

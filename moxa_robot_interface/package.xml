@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>moxa_robot_interface</name>
+  <version>0.1.0</version>
+  <description>机器人标准位姿状态、同步点目标与停止接口。</description>
+  <maintainer email="naoya@todo.todo">naoya</maintainer>
+  <license>TODO</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <depend>geometry_msgs</depend>
+  <depend>std_srvs</depend>
+  <export/>
+</package>

@@ -1,0 +1,6 @@
+# 可选夹爪目标：0 为全开，1 为全闭；不是测得的位置。
+float64 position
+---
+# 目标请求的处理结果，不表示已确认到位。
+bool success
+string message

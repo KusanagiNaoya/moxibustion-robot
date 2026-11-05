@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="config" default="$(find moxibustion_api)/config/sensors.yaml" />
+  <!-- port 为空时使用 YAML 配置。 -->
+  <arg name="port" default="" />
+  <arg name="topic" default="/moxibustion_api/sensor/sample" />
+  <node pkg="moxibustion_api" type="serial_sensor_node.py" name="moxibustion_sensor" output="screen">
+    <rosparam command="load" file="$(arg config)" />
+    <param if="$(eval arg('port') != '')" name="port" value="$(arg port)" />
+    <remap from="sensor/sample" to="$(arg topic)" />
+  </node>
+</launch>

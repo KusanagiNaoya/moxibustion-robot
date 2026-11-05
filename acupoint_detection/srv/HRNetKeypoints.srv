@@ -1,0 +1,9 @@
+sensor_msgs/Image rgb_image
+sensor_msgs/Image segmentation_mask
+---
+std_msgs/Header header
+acupoint_detection/Keypoint[] keypoints
+float32[] scores
+float32 inference_time
+bool success
+string message

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>moxibustion_api</name>
+  <version>0.1.0</version>
+  <description>艾灸任务 Action、温度距离控制与串口采集。</description>
+  <maintainer email="naoya@todo.todo">naoya</maintainer>
+  <license>TODO</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <depend>acupoint_detection</depend>
+  <depend>actionlib</depend>
+  <depend>actionlib_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>moxa_robot_interface</depend>
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
+  <exec_depend>python3-serial</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <export/>
+</package>

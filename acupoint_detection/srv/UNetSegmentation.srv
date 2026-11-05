@@ -1,0 +1,7 @@
+sensor_msgs/Image rgb_image
+---
+std_msgs/Header header
+sensor_msgs/Image segmentation_mask
+float32 inference_time
+bool success
+string message

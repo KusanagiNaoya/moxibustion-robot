@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="unet_weights" default=""/>
+  <arg name="hrnet_weights" default=""/>
+  <arg name="color_topic" default="/camera/color/image_raw"/>
+  <arg name="depth_topic" default="/camera/aligned_depth_to_color/image_raw"/>
+  <arg name="color_camera_info_topic" default="/camera/color/camera_info"/>
+  <arg name="camera_frame" default="camera_color_optical_frame"/>
+  <arg name="acupoints_file" default="$(find acupoint_detection)/config/acupoint_info.csv"/>
+  <arg name="sync_slop" default="0.1"/>
+  <arg name="max_image_age" default="1.0"/>
+
+  <node name="unet_segmentation_server" pkg="acupoint_detection" type="unet_server_node.py" output="screen">
+    <param name="weights_path" value="$(arg unet_weights)" type="str"/>
+  </node>
+  <node name="hrnet_keypoints_server" pkg="acupoint_detection" type="hrnet_server_node.py" output="screen">
+    <param name="weights_path" value="$(arg hrnet_weights)" type="str"/>
+  </node>
+  <node name="acupoint_detection_server" pkg="acupoint_detection" type="acupoint_detection_server_node.py" output="screen">
+    <param name="acupoints_file" value="$(arg acupoints_file)"/>
+    <param name="color_topic" value="$(arg color_topic)"/>
+    <param name="depth_topic" value="$(arg depth_topic)"/>
+    <param name="color_camera_info_topic" value="$(arg color_camera_info_topic)"/>
+    <param name="camera_frame" value="$(arg camera_frame)"/>
+    <param name="sync_slop" value="$(arg sync_slop)"/>
+    <param name="max_image_age" value="$(arg max_image_age)"/>
+  </node>
+</launch>

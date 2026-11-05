@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="start_camera" default="true"/>
+  <arg name="start_vision" default="true"/>
+  <arg name="publish_extrinsics" default="true"/>
+  <arg name="start_sensors" default="true"/>
+  <arg name="start_robot" default="true"/>
+  <arg name="start_api" default="true"/>
+  <arg name="start_gui" default="true"/>
+  <arg name="base_frame" default="base_link"/>
+  <arg name="robot_name" default="my_gen3_lite"/>
+  <arg name="robot_interface_ns" default="/moxa_robot"/>
+  <arg name="controlled_frame" default="kortex_tool"/>
+  <arg name="enable_home" default="false"/>
+  <arg name="enable_gripper" default="false"/>
+  <arg name="camera" default="camera"/>
+  <arg name="camera_frame" default="$(arg camera)_color_optical_frame"/>
+  <arg name="serial_no" default=""/>
+  <arg name="resolution_mode" default="720p"/>
+  <arg name="color_topic" default="/$(arg camera)/color/image_raw"/>
+  <arg name="depth_topic" default="/$(arg camera)/aligned_depth_to_color/image_raw"/>
+  <arg name="camera_info_topic" default="/$(arg camera)/color/camera_info"/>
+  <arg name="unet_weights" default=""/>
+  <arg name="hrnet_weights" default=""/>
+  <arg name="acupoints_file" default="$(find acupoint_detection)/config/acupoint_info.csv"/>
+  <arg name="calibration_file" default=""/>
+  <arg name="task_config" default="$(find moxibustion_api)/config/control.yaml"/>
+  <arg name="gui_config" default="$(find system_integration)/config/gui.yaml"/>
+  <arg name="sensor_config" default="$(find moxibustion_api)/config/sensors.yaml"/>
+  <arg name="sensor_port" default=""/>
+  <arg name="sensor_topic" default="/moxibustion_api/sensor/sample"/>
+  <arg name="action_name" default="/moxibustion_task"/>
+
+  <include if="$(arg start_camera)" file="$(find system_integration)/launch/camera.launch">
+    <arg name="camera" value="$(arg camera)"/>
+    <arg name="serial_no" value="$(arg serial_no)"/>
+    <arg name="resolution_mode" value="$(arg resolution_mode)"/>
+  </include>
+  <include if="$(arg start_vision)" file="$(find acupoint_detection)/launch/server_acupoint_detection.launch">
+    <arg name="unet_weights" value="$(arg unet_weights)"/>
+    <arg name="hrnet_weights" value="$(arg hrnet_weights)"/>
+    <arg name="acupoints_file" value="$(arg acupoints_file)"/>
+    <arg name="color_topic" value="$(arg color_topic)"/>
+    <arg name="depth_topic" value="$(arg depth_topic)"/>
+    <arg name="color_camera_info_topic" value="$(arg camera_info_topic)"/>
+    <arg name="camera_frame" value="$(arg camera_frame)"/>
+  </include>
+  <include if="$(arg publish_extrinsics)" file="$(find system_integration)/launch/extrinsics.launch">
+    <arg name="calibration_file" value="$(arg calibration_file)"/>
+    <arg name="base_frame" value="$(arg base_frame)"/>
+    <arg name="camera_frame" value="$(arg camera_frame)"/>
+  </include>
+  <include if="$(arg start_sensors)" file="$(find moxibustion_api)/launch/sensors.launch">
+    <arg name="config" value="$(arg sensor_config)"/>
+    <arg name="port" value="$(arg sensor_port)"/>
+    <arg name="topic" value="$(arg sensor_topic)"/>
+  </include>
+  <include if="$(arg start_robot)" file="$(find kinova_controller)/launch/kinova_driver.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="base_frame" value="$(arg base_frame)"/>
+    <arg name="robot_interface_ns" value="$(arg robot_interface_ns)"/>
+    <arg name="controlled_frame" value="$(arg controlled_frame)"/>
+    <arg name="enable_home" value="$(arg enable_home)"/>
+    <arg name="enable_gripper" value="$(arg enable_gripper)"/>
+  </include>
+  <include if="$(arg start_api)" file="$(find moxibustion_api)/launch/moxibustion_action_server.launch">
+    <arg name="config" value="$(arg task_config)"/>
+    <arg name="base_frame" value="$(arg base_frame)"/>
+    <arg name="robot_interface_ns" value="$(arg robot_interface_ns)"/>
+    <arg name="action_name" value="$(arg action_name)"/>
+    <arg name="sensor_topic" value="$(arg sensor_topic)"/>
+  </include>
+  <include if="$(arg start_gui)" file="$(find system_integration)/launch/panel_acupoint_moxibustion.launch">
+    <arg name="task_config" value="$(arg task_config)"/>
+    <arg name="gui_config" value="$(arg gui_config)"/>
+    <arg name="base_frame" value="$(arg base_frame)"/>
+    <arg name="camera_frame" value="$(arg camera_frame)"/>
+    <arg name="robot_interface_ns" value="$(arg robot_interface_ns)"/>
+    <arg name="action_name" value="$(arg action_name)"/>
+    <arg name="sensor_topic" value="$(arg sensor_topic)"/>
+    <arg name="color_topic" value="$(arg color_topic)"/>
+    <arg name="depth_topic" value="$(arg depth_topic)"/>
+    <arg name="camera_info_topic" value="$(arg camera_info_topic)"/>
+    <arg name="enable_home" value="$(arg enable_home)"/>
+    <arg name="enable_gripper" value="$(arg enable_gripper)"/>
+  </include>
+</launch>

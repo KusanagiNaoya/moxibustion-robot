@@ -1,0 +1,6 @@
+# 同步绝对点目标；坐标系必须由后端支持，stamp 不表示期望到达时间。
+geometry_msgs/PoseStamped target
+---
+# 映射后端运动结果；失败不能证明机器人已经停止。
+bool success
+string message

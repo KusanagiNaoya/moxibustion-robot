@@ -1,0 +1,21 @@
+# 单穴位任务；坐标属于 base_frame，使用穴位 XY，准备 Z 取 initial_z_m。
+acupoint_detection/AcupointArray acupoints
+string target_name
+# 空值采用 default_mode；合法显式值为 pid_control、sac_pid_control，任务中不切换方法。
+string mode
+float64 duration                 # 控制阶段秒数；0 表示由客户端取消结束，不包含准备移动
+float64 target_temperature       # 滤波平均温度的目标，摄氏度
+---
+bool success                     # 仅正常完成且停止调用成功为 true；不证明物理静止
+string message
+---
+duration elapsed
+string message                   # 任务阶段、温区、运动调用结果或异常原因
+string mode                      # 实际选定的 pid_control 或 sac_pid_control
+float64 target_temperature
+float64 current_temperature      # 滤波平均温度，摄氏度；缺数据时 NaN
+float64 current_distance         # 传感器原始读数 r，米；缺数据时 NaN
+float64 current_h                # 实测间距 r-D_setup+D_raw，米
+# 基座系位姿，位置 m、姿态四元数；未知值为 NaN。当前位姿时间为原始反馈接收时刻。
+geometry_msgs/PoseStamped current_pose
+geometry_msgs/PoseStamped target_pose  # 时间为零，不表示期望到达时刻

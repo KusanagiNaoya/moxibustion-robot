@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<launch>
+  <!--
+    Kortex 来源：https://github.com/Kinovarobotics/ros_kortex
+    Copyright (c) 2018, Kinova inc. 许可原文见本包 LICENSE.kortex。
+  -->
+  <arg name="robot_name" default="my_gen3_lite"/>
+  <!-- joint_limits.yaml 通过 subst_value 读取 prefix。 -->
+  <arg name="prefix" value=""/>
+  <arg name="ip_address"/>
+  <arg name="username"/>
+  <arg name="password"/>
+  <arg name="cyclic_data_publish_rate" default="40"/>
+  <arg name="api_rpc_timeout_ms" default="2000"/>
+  <arg name="api_session_inactivity_timeout_ms" default="35000"/>
+  <arg name="api_connection_inactivity_timeout_ms" default="20000"/>
+  <arg name="default_goal_time_tolerance" default="0.5"/>
+  <arg name="default_goal_tolerance" default="0.005"/>
+  <arg name="vision" default="true"/>
+
+  <group ns="$(arg robot_name)">
+    <param name="robot_description"
+           command="$(find xacro)/xacro --inorder $(find kortex_description)/robots/gen3_lite_gen3_lite_2f.xacro dof:=6 vision:=$(arg vision) sim:=false"/>
+    <node name="$(arg robot_name)_driver" pkg="kortex_driver"
+          type="kortex_arm_driver" output="screen">
+      <param name="sim" value="false"/>
+      <param name="ip_address" value="$(arg ip_address)" type="str"/>
+      <param name="username" value="$(arg username)" type="str"/>
+      <param name="password" value="$(arg password)" type="str"/>
+      <param name="cyclic_data_publish_rate" value="$(arg cyclic_data_publish_rate)"/>
+      <param name="api_rpc_timeout_ms" value="$(arg api_rpc_timeout_ms)"/>
+      <param name="api_session_inactivity_timeout_ms" value="$(arg api_session_inactivity_timeout_ms)"/>
+      <param name="api_connection_inactivity_timeout_ms" value="$(arg api_connection_inactivity_timeout_ms)"/>
+      <param name="default_goal_time_tolerance" value="$(arg default_goal_time_tolerance)"/>
+      <param name="default_goal_tolerance" value="$(arg default_goal_tolerance)"/>
+      <param name="arm" value="gen3_lite"/>
+      <param name="gripper" value="gen3_lite_2f"/>
+      <param name="dof" value="6"/>
+      <param name="use_hard_limits" value="false"/>
+      <param name="robot_name" value="$(arg robot_name)"/>
+      <param name="prefix" value="$(arg prefix)"/>
+      <rosparam command="load"
+                file="$(find kortex_description)/arms/gen3_lite/6dof/config/joint_limits.yaml"
+                subst_value="true"/>
+      <rosparam command="load"
+                file="$(find kortex_description)/grippers/gen3_lite_2f/config/joint_limits.yaml"
+                subst_value="true"/>
+    </node>
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+      <rosparam param="source_list">[base_feedback/joint_state]</rosparam>
+      <param name="use_gui" value="false"/>
+      <param name="rate" value="$(arg cyclic_data_publish_rate)"/>
+    </node>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  </group>
+</launch>

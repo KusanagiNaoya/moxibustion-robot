@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default="my_gen3_lite"/>
+  <arg name="base_frame" default="base_link"/>
+  <arg name="robot_interface_ns" default="/moxa_robot"/>
+  <arg name="controlled_frame" default="kortex_tool"/>
+  <arg name="feedback_timeout_s" default="1.0"/>
+  <arg name="enable_home" default="false"/>
+  <arg name="enable_gripper" default="false"/>
+  <arg name="motion_timeout" default="5.0"/>
+  <arg name="home_timeout" default="10.0"/>
+  <arg name="action_poll_dt" default="0.01"/>
+  <arg name="default_translation_speed" default="0.1"/>
+  <arg name="default_orientation_speed" default="15.0"/>
+  <arg name="move_service" default="/move_cartesian_service"/>
+  <arg name="stop_service" default="/stop_robot_service"/>
+  <arg name="home_service" default="/home_robot_service"/>
+  <arg name="gripper_service" default="/gripper_service"/>
+  <arg name="status_topic" default="/controller_status"/>
+
+  <node pkg="kinova_controller" type="robot_controller_node.py"
+        name="robot_controller_node" output="screen">
+    <param name="robot_name" value="$(arg robot_name)"/>
+    <param name="base_frame" value="$(arg base_frame)"/>
+    <param name="motion_timeout" value="$(arg motion_timeout)"/>
+    <param name="home_timeout" value="$(arg home_timeout)"/>
+    <param name="action_poll_dt" value="$(arg action_poll_dt)"/>
+    <param name="default_translation_speed" value="$(arg default_translation_speed)"/>
+    <param name="default_orientation_speed" value="$(arg default_orientation_speed)"/>
+    <remap from="/move_cartesian_service" to="$(arg move_service)"/>
+    <remap from="/stop_robot_service" to="$(arg stop_service)"/>
+    <remap from="/home_robot_service" to="$(arg home_service)"/>
+    <remap from="/gripper_service" to="$(arg gripper_service)"/>
+    <remap from="/controller_status" to="$(arg status_topic)"/>
+  </node>
+  <node pkg="kinova_controller" type="robot_interface_node.py"
+        name="robot_interface_node" output="screen">
+    <param name="robot_interface_ns" value="$(arg robot_interface_ns)"/>
+    <param name="base_frame" value="$(arg base_frame)"/>
+    <param name="controlled_frame" value="$(arg controlled_frame)"/>
+    <param name="feedback_timeout_s" value="$(arg feedback_timeout_s)"/>
+    <param name="enable_home" value="$(arg enable_home)"/>
+    <param name="enable_gripper" value="$(arg enable_gripper)"/>
+    <param name="home_service" value="$(arg home_service)"/>
+    <param name="gripper_service" value="$(arg gripper_service)"/>
+    <param name="move_service" value="$(arg move_service)"/>
+    <param name="stop_service" value="$(arg stop_service)"/>
+    <param name="status_topic" value="$(arg status_topic)"/>
+  </node>
+</launch>

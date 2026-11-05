@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- 解析前须设置三个 KORTEX 环境变量；覆盖 arg 不会跳过 env 解析。 -->
+  <arg name="robot_name" default="my_gen3_lite"/>
+  <arg name="base_frame" default="base_link"/>
+  <arg name="robot_interface_ns" default="/moxa_robot"/>
+  <arg name="controlled_frame" default="kortex_tool"/>
+  <arg name="feedback_timeout_s" default="1.0"/>
+  <arg name="enable_home" default="false"/>
+  <arg name="enable_gripper" default="false"/>
+  <arg name="ip_address" default="$(env KORTEX_IP_ADDRESS)"/>
+  <arg name="username" default="$(env KORTEX_USERNAME)"/>
+  <arg name="password" default="$(env KORTEX_PASSWORD)"/>
+  <arg name="motion_timeout" default="5.0"/>
+  <arg name="home_timeout" default="10.0"/>
+  <arg name="action_poll_dt" default="0.01"/>
+  <arg name="default_translation_speed" default="0.1"/>
+  <arg name="default_orientation_speed" default="15.0"/>
+
+  <include file="$(find kinova_controller)/launch/kortex_gen3_lite.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="ip_address" value="$(arg ip_address)"/>
+    <arg name="username" value="$(arg username)"/>
+    <arg name="password" value="$(arg password)"/>
+  </include>
+  <include file="$(find kinova_controller)/launch/controller.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="base_frame" value="$(arg base_frame)"/>
+    <arg name="robot_interface_ns" value="$(arg robot_interface_ns)"/>
+    <arg name="controlled_frame" value="$(arg controlled_frame)"/>
+    <arg name="feedback_timeout_s" value="$(arg feedback_timeout_s)"/>
+    <arg name="enable_home" value="$(arg enable_home)"/>
+    <arg name="enable_gripper" value="$(arg enable_gripper)"/>
+    <arg name="motion_timeout" value="$(arg motion_timeout)"/>
+    <arg name="home_timeout" value="$(arg home_timeout)"/>
+    <arg name="action_poll_dt" value="$(arg action_poll_dt)"/>
+    <arg name="default_translation_speed" value="$(arg default_translation_speed)"/>
+    <arg name="default_orientation_speed" value="$(arg default_orientation_speed)"/>
+  </include>
+</launch>

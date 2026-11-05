@@ -1,0 +1,54 @@
+# 任务默认配置；Action 可指定方法、目标温度、时长和穴位。
+default_mode: pid_control
+base_frame: base_link
+action_name: /moxibustion_task
+sensor_topic: /moxibustion_api/sensor/sample
+robot_interface_ns: /moxa_robot
+
+# 目标温度（°C）和基座 XY（m）的允许范围；越界拒绝。
+target_temperature_min_c: 25.0
+target_temperature_max_c: 50.0
+x_min_m: 0.00
+x_max_m: 0.40
+y_min_m: 0.00
+y_max_m: 0.40
+# Δr 与 Δr-ΔZ 同时达到阈值（m）后连续确认；只对有效新距离计数。
+enable_dist_jump_guard: true
+dist_jump_threshold: 0.020
+dist_jump_residual_threshold: 0.015
+dist_jump_confirm_count: 2
+dist_jump_warmup_cycles: 3
+
+# 准备点使用穴位 XY、此基座 Z（m）及开始时的反馈姿态。
+initial_z_m: 0.30
+reference_rate_hz: 2.0
+control_rate_hz: 10.0
+pid_kp: 0.005
+pid_ki: 0.0025
+pid_kd: 0.0
+# 温区阈值（°C）；固定 PID 使用 enter，SAC 使用 enter/exit 滞环。
+local_enter_c: 2.0
+local_exit_c: 2.5
+
+# 测距换算 h=r-D_setup+D_raw，长度单位 m。
+D_setup: 0.037
+D_raw: 0.011
+# 要求固定安装姿态下基座 +Z 增大间距；距离、死区和 Z 限制均为 m。
+positive_z_increases_distance: true
+distance_min_m: 0.03
+distance_max_m: 0.08
+z_min_m: 0.01
+z_max_m: 0.50
+distance_gain: 1.0
+deadband_m: 0.001
+max_delta_z_m: 0.05
+
+# 时间约束单位 s。
+min_dt_s: 0.05
+max_dt_s: 5.0
+max_age_s: 1.0
+max_skew_s: 1.0
+inference_timeout_s: 0.2
+max_reference_age_s: 5.0
+# 连续无法接受控制输入的等待上限，不含已接受的同步移动耗时。
+input_timeout_s: 5.0
